@@ -1,0 +1,22 @@
+const http = require('http');
+
+const server = http.createServer((req, res)=>{
+    if(req.url === '/')
+    {
+        res.write('fuck you');
+        res.end();
+    }
+
+    if(req.url === '/api/courses'){
+        res.write(JSON.stringify([1,2,3]));
+        res.end();
+    }
+}); //this is an event emitter
+
+
+// EventEmitter -> net.Server -> server
+
+server.listen(3000);
+
+console.log('listening on port 3000...');
+
