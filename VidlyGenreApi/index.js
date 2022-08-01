@@ -31,11 +31,32 @@ class Validator{
 
 let validator = new Validator();
 
-const genres = [
+const genres = null;
+
+/*[
     {id: 1, name:'Sci-fi'},
     {id: 2, name:'Fantasy'},
     {id: 3, name:'Horror'},
-];
+];*/
+
+fs.readFile('./Data/genres.json', 'utf8', (err, data) => {
+
+    if(err)
+    {
+        //???
+        genres = [
+            {id: 1, name:'Sci-fi'},
+            {id: 2, name:'Fantasy'},
+            {id: 3, name:'Horror'},
+        ]; 
+        return;
+    }
+    else{
+        genres = JSON.parse(data);
+    }
+    
+});
+
 
 const port = process.env.port || 3000;
 
@@ -80,7 +101,7 @@ app.put(genrePath + ':id', (req, res) => {
 
     genre.name = req.params.name;
     res.send(genre);
-    
+    updateFile();
 
 });
 
@@ -110,8 +131,43 @@ app.post(genrePath, (req, res) => {
     
     genres.push(newGenre);
     res.send(genres);
+
+    updateFile();
    
 });
 
+app.delete(genrePath + ':id', (req, res)=>{
+    const genre = genres.find(c => c.id === parseInt(req.params.id));
+
+    if(!genre)
+    {
+        res.status(400).send("Genre does not exist, can't delete :/");
+    }
+
+    const index = genres.indexOf(genre);
+
+    genres.splice(index, 1);
+    res.send(genre);
+
+    updateFile();
+})
 
 app.listen(port, ()=> console.log(`Listening on ${port}...`));
+
+process.on('SIGTERM', () => {
+    updateFile();
+})
+
+function updateFile()
+{
+    fs.writeFile('./Data/genres.json', genres, 'utf8', (err) =>
+    {
+        if(err)
+        {
+            console.log("Error writing out Genre file");
+        }
+        else{
+            console.log("Successful wrote Genre.json out");
+        }
+    })
+}
