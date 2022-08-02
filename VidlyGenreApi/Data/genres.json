@@ -1,5 +1,1 @@
-[
-    {id: 1, name:'Sci-fi'},
-    {id: 2, name:'Fantasy'},
-    {id: 3, name:'Horror'},
-]
+[{"id":1,"name":"Sci-fi"},{"id":3,"name":"Horror"},{"id":4,"name":"Fantasy"}]

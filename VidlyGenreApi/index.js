@@ -31,15 +31,15 @@ class Validator{
 
 let validator = new Validator();
 
-const genres = null;
+const genres = 
 
-/*[
+[
     {id: 1, name:'Sci-fi'},
     {id: 2, name:'Fantasy'},
     {id: 3, name:'Horror'},
-];*/
+];
 
-fs.readFile('./Data/genres.json', 'utf8', (err, data) => {
+/*fs.readFile('./Data/genres.json', 'utf8', (err, data) => {
 
     if(err)
     {
@@ -55,7 +55,7 @@ fs.readFile('./Data/genres.json', 'utf8', (err, data) => {
         genres = JSON.parse(data);
     }
     
-});
+});*/
 
 
 const port = process.env.port || 3000;
@@ -99,7 +99,7 @@ app.put(genrePath + ':id', (req, res) => {
         return;
     }
 
-    genre.name = req.params.name;
+    genre.name = req.body.name;
     res.send(genre);
     updateFile();
 
@@ -160,7 +160,7 @@ process.on('SIGTERM', () => {
 
 function updateFile()
 {
-    fs.writeFile('./Data/genres.json', genres, 'utf8', (err) =>
+    fs.writeFile('./Data/genres.json', JSON.stringify(genres), 'utf8', (err) =>
     {
         if(err)
         {
