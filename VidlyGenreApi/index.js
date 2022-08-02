@@ -3,6 +3,7 @@ const fs = require('fs');
 const express = require('express');
 const Joi = require('joi');
 const app = express();
+const genres = require('./Data/genres.json');
 
 app.use(express.json());
 
@@ -31,13 +32,7 @@ class Validator{
 
 let validator = new Validator();
 
-const genres = 
 
-[
-    {id: 1, name:'Sci-fi'},
-    {id: 2, name:'Fantasy'},
-    {id: 3, name:'Horror'},
-];
 
 /*fs.readFile('./Data/genres.json', 'utf8', (err, data) => {
 
