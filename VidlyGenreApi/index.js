@@ -1,15 +1,15 @@
-const config = require('config');
-const express = require('express');
-const app = express();
-const genres = require('./Data/genres.json');
-const logger = require("./logger");
-const authenticator = require("./authenicator");
-const helmet = require('helmet')
-const morgan = require('morgan');
+const config          = require('config');
+const express         = require('express');
+const app             = express();
+const genres          = require('./Data/genres.json');
+const logger          = require("./logger");
+const authenticator   = require("./authenicator");
+const helmet          = require('helmet')
+const morgan          = require('morgan');
 const startupDebugger = require('debug')('app:startup');
-const dbDebugger = require('debug')('app:db')
-const genresRouting = require('./routes/genres');
-const homeRouting = require('./routes/home');
+const dbDebugger      = require('debug')('app:db')
+const genresRouting   = require('./routes/genres');
+const homeRouting     = require('./routes/home');
 
 app.set('view engine', 'pug'); //express internally loads this module
 app.set('views', './views'); //default
