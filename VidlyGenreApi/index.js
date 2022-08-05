@@ -4,8 +4,35 @@ const express = require('express');
 const Joi = require('joi');
 const app = express();
 const genres = require('./Data/genres.json');
+const logger = require("./logger");
+const authenticator = require("./authenicator");
+const helmet = require('helmet')
+const morgan = require('morgan');
 
-app.use(express.json());
+//process.env.NODE_ENV //
+
+const dev = (app.get('env') === 'development');
+
+//console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+//console.log(`app: ${app.get('env')}`);
+
+app.use(express.json()); // sets req.body
+app.use(express.urlencoded({extended: true})); // parses key=value&key=value etc url encoded payload
+app.use(express.static('public')); //static content is served from the root of the site
+app.use(helmet());
+
+if(dev) 
+{
+    app.use(morgan('tiny'));
+    console.log('morgan enabled')
+}
+app.use(logger);
+app.use(authenticator);
+
+
+
+
 
 function findGenre(req, genres)
 {
@@ -34,23 +61,6 @@ let validator = new Validator();
 
 
 
-/*fs.readFile('./Data/genres.json', 'utf8', (err, data) => {
-
-    if(err)
-    {
-        //???
-        genres = [
-            {id: 1, name:'Sci-fi'},
-            {id: 2, name:'Fantasy'},
-            {id: 3, name:'Horror'},
-        ]; 
-        return;
-    }
-    else{
-        genres = JSON.parse(data);
-    }
-    
-});*/
 
 
 const port = process.env.port || 3000;
